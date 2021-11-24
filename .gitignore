@@ -1,5 +1,8 @@
+# IntelliJ
+.idea
+
 # Prerequisites
-*.d
+#*.d
 
 # Object files
 *.o

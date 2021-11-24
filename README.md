@@ -1,2 +1,3 @@
-# lfs
-Linux From Scratch
+# LFS (Linux From Scratch)
+
+Under development
