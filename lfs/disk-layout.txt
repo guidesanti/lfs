@@ -1,0 +1,35 @@
+Disk /dev/sda: 465.78 GiB, 500107862016 bytes, 976773168 sectors
+Disk model: S2 Portable
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 9752A994-3CFD-E642-A293-AC4754F3A6F3
+
+Device          Start       End  Sectors  Size Type
+/dev/sda1        2048   1050623  1048576  512M EFI System
+/dev/sda2     1050624   3147775  2097152    1G Linux filesystem
+/dev/sda3     3147776   3149823     2048    1M BIOS boot
+/dev/sda4     3149824  66064383 62914560   30G Linux filesystem
+/dev/sda128 972578864 976773134  4194271    2G Linux swap
+
+----------------------------------------------------------------------------------------------------
+Disk /dev/sda: 465.78 GiB, 500107862016 bytes, 976773168 sectors
+Disk model: S2 Portable
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 9752A994-3CFD-E642-A293-AC4754F3A6F3
+First LBA: 2048
+Last LBA: 976773134
+Alternative LBA: 976773167
+Partition entries LBA: 2
+Allocated partition entries: 128
+
+Device          Start       End  Sectors Type-UUID                            UUID                                 Name      Attrs
+/dev/sda1        2048   1050623  1048576 C12A7328-F81F-11D2-BA4B-00A0C93EC93B 8BB216BD-ACF1-E644-A601-47776395E6A9 EFI
+/dev/sda2     1050624   3147775  2097152 0FC63DAF-8483-4772-8E79-3D69D8477DE4 3302E360-18FD-1D4A-AC02-DA72B08F100D Boot
+/dev/sda3     3147776   3149823     2048 21686148-6449-6E6F-744E-656564454649 903DB094-BFAC-0648-9682-6B62541547A9 BIOS Boot
+/dev/sda4     3149824  66064383 62914560 0FC63DAF-8483-4772-8E79-3D69D8477DE4 EC7FACDA-B3DE-354F-AFDB-3700F19C98F5 LFS1
+/dev/sda128 972578864 976773134  4194271 0657FD6D-A4AB-43C4-84E5-0933C84B4F4F FDB18459-1488-C04B-BEA5-A5427ECDB20A Swap
