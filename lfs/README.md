@@ -35,7 +35,7 @@ prepare.sh run
 
 ## 2. Build the LFS cross toolchain and temporary tools
 ```
-build-cross-toolchain.sh run
+build-cross-toolchain.sh
 ```
 
 ## 3. Build the LFS system

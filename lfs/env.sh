@@ -6,7 +6,7 @@ DEFAULT_LFS_PARTITION=/dev/sda4
 DEFAULT_LFS=/mnt/lfs
 DEFAULT_LFS_LOG_DIR=/tmp/lfs
 DEFAULT_LFS_DEBUG=false
-LFS_ENV=('LFS_GROUP' 'LFS_USER' 'LFS_PARTITION' 'LFS' 'LFS_SOURCES' 'LFS_TOOLS' 'LFS_CONFIG_SITE' 'LFS_DEBUG' 'LFS_LOG_DIR' 'LFS_TARGET')
+LFS_ENV=('LFS_GROUP' 'LFS_USER' 'LFS_PARTITION' 'LFS' 'LFS_SOURCES' 'LFS_TOOLS' 'LFS_DEBUG' 'LFS_LOG_DIR' 'LFS_TARGET' 'CONFIG_SITE' 'PATH')
 
 help () {
   printf "SYNOPSIS\n"
@@ -51,11 +51,11 @@ set_env () {
   export LFS=${LFS:-${DEFAULT_LFS}}
   export LFS_SOURCES=${LFS}/sources
   export LFS_TOOLS=${LFS}/tools
-  export LFS_CONFIG_SITE=$LFS/usr/share/config.site
   export LFS_DEBUG=${LFS_DEBUG:-${DEFAULT_LFS_DEBUG}}
   export LFS_LOG_DIR=${LFS_LOG_DIR:-${DEFAULT_LFS_LOG_DIR}}
   LFS_TARGET="$(uname -m)-lfs-linux-gnu"
   export LFS_TARGET
+  export CONFIG_SITE=${LFS}/usr/share/config.site
   export PATH=$LFS/tools/bin:$PATH
 }
 
@@ -107,10 +107,10 @@ unset_env () {
   unset LFS
   unset LFS_SOURCES
   unset LFS_TOOLS
-  unset LFS_CONFIG_SITE
   unset LFS_LOG_DIR
   unset LFS_TARGET
   unset LFS_DEBUG
+  unset CONFIG_SITE
 }
 
 # Read command

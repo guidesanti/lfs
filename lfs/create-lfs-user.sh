@@ -2,7 +2,7 @@
 
 source ./utils.sh
 
-LOG_FILE=create-lfs-user.log
+LOG_FILE=/tmp/lfs/create-lfs-user.log
 PASSWORD=
 LFS_GROUP=lfs
 LFS_USER=lfs
@@ -25,13 +25,13 @@ while [[ $# -gt 0 ]]; do
   KEY=$1
   case $KEY in
     --group)
-      USER=$2
+      LFS_GROUP=$2
       shift
       shift
       ;;
 
     --user)
-      USER=$2
+      LFS_USER=$2
       shift
       shift
       ;;
@@ -49,10 +49,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+LFS_HOME=/home/${LFS_USER}
+
 printf "Creating LFS group and user:\n"
 printf "LFS group: %s\n" "${LFS_GROUP}"
 printf "LFS user: %s\n" "${LFS_USER}"
 printf "LFS user password: %s\n" "${NO_PASSWORD}"
+printf "LFS user home: %s\n" "${LFS_HOME}"
 read -r -p "Is that information correct (y/n)? " ANSWER
 if [[ ${ANSWER} == "n" ]]; then
   printf "Aborted\n"
@@ -65,7 +68,7 @@ sudo -v
 printf "%-50s" "LFS group"
 GROUP_EXIST=$(cat < /etc/group | grep "${LFS_GROUP}" | cut -d ':' -f 1)
 if [[ -z "${GROUP_EXIST}" ]]; then
-  if ! sudo groupadd "${LFS_USER}" &> ${LOG_FILE}; then
+  if ! sudo groupadd "${LFS_USER}" &>> ${LOG_FILE}; then
     fail
   fi
 fi
@@ -75,30 +78,30 @@ ok
 printf "%-50s" "LFS user"
 USER_EXIST=$(cat < /etc/passwd | grep "${LFS_USER}" | cut -d ':' -f 1)
 if [[ -z "${USER_EXIST}" ]]; then
-  sudo useradd -s /bin/bash -g "${LFS_GROUP}" -m -k /dev/null "${LFS_USER}" &> ${LOG_FILE} || fail
+  sudo useradd -s /bin/bash -g "${LFS_GROUP}" -m -k /dev/null "${LFS_USER}" &>> ${LOG_FILE} || fail
   if [[ -z "${PASSWORD}" ]]; then
-    sudo passwd -d "${LFS_USER}" &> ${LOG_FILE} || fail
+    sudo passwd -d "${LFS_USER}" &>> ${LOG_FILE} || fail
   else
-    echo -e "$PASSWORD\n$PASSWORD" | sudo passwd lfs &> ${LOG_FILE} || fail
+    echo -e "$PASSWORD\n$PASSWORD" | sudo passwd lfs &>> ${LOG_FILE} || fail
   fi
 
   # Add LFS user to sudo
-  sudo usermod -aG sudo ${LFS_USER} &> ${LOG_FILE} || fail
+  sudo usermod -aG sudo ${LFS_USER} &>> ${LOG_FILE} || fail
 
   # create .bash_profile
-  sudo -H -u ${LFS_USER} bash -c "cat > ~/.bash_profile << \"EOF\"
-exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
-EOF" &> ${LOG_FILE} || fail
+  sudo -H -u "${LFS_USER}" bash -c "cat > ~/.bash_profile << \"EOF\"
+exec env -i HOME=$LFS_HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
+EOF" &>> ${LOG_FILE} || fail
 
   # Create .bashrc
-  sudo -H -u ${LFS_USER} bash -c "cat > ~/.bashrc << \"EOF\"
+  sudo -H -u "${LFS_USER}" bash -c "cat > ~/.bashrc << \"EOF\"
 set +h
 umask 022
 LC_ALL=POSIX
 PATH=/usr/bin
 if [ ! -L /bin ]; then PATH=/bin:$PATH; fi
-export LC_ALL LFS_TGT PATH
-EOF" &> ${LOG_FILE} || fail
+export LC_ALL PATH
+EOF" &>> ${LOG_FILE} || fail
 fi
 ok
 
